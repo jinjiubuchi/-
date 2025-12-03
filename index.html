@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>健康饮食助手 | 食物推荐</title>
+    <title>减脂目标助手 | 科学瘦身</title>
     <style>
-        /* CSS 样式与上一次提供的代码基本一致，但新增了食物推荐列表的样式 */
+        /* CSS 保持简洁的绿色主题，但标题和信息已更新 */
         :root {
-            --primary: #4CAF50;
-            --primary-dark: #388E3C;
+            --primary: #27ae60;       /* 减脂绿 */
+            --primary-dark: #1e8449;
             --accent: #FF9800;
             --bg: #F0F4F8;
             --card-bg: #FFFFFF;
@@ -27,19 +27,9 @@
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .container { max-width: 800px; margin: 0 auto; }
         h1, h2, h3 { margin: 0; font-weight: 600; }
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            transition: transform 0.3s ease;
-        }
+        .card { background: var(--card-bg); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); margin-bottom: 30px; transition: transform 0.3s ease; }
         .card:hover { transform: translateY(-5px); }
 
         /* 计算器样式 */
@@ -52,7 +42,7 @@
         .radio-label:has(input:checked) { border-color: var(--primary); background-color: #e8f5e9; color: var(--primary); }
         .styled-input, .styled-select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1em; background: #fafafa; outline: none; transition: border 0.3s; }
         .full-width { grid-column: span 2; }
-        .btn-calc { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 30px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-calc { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 30px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
         .btn-calc:active { transform: scale(0.98); }
 
         /* 结果展示样式 */
@@ -65,36 +55,20 @@
         .fat-color { color: #f1c40f; }
         .carb-color { color: #e67e22; }
 
-        /* 新增：推荐列表样式 */
-        .recommendation-grid {
-            margin-top: 15px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        .rec-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .rec-item strong {
-            font-size: 1.1em;
-            color: var(--primary-dark);
-        }
-        .rec-item span {
-            font-weight: 600;
-            color: var(--text-main);
-        }
+        /* 推荐列表样式 */
+        .recommendation-grid { margin-top: 15px; display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .rec-item { background: #f9f9f9; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .rec-item strong { font-size: 1.1em; color: var(--primary-dark); }
+        .rec-item span { font-weight: 600; color: var(--text-main); }
 
         /* 食物分类导航样式 */
         .nav-wrapper { overflow-x: auto; white-space: nowrap; padding-bottom: 10px; scrollbar-width: none; }
         .food-tabs { display: inline-flex; gap: 10px; }
         .tab-btn { flex-shrink: 0; padding: 10px 20px; background: transparent; border: 2px solid #e0e0e0; border-radius: 25px; color: var(--text-sub); cursor: pointer; font-weight: 600; transition: all 0.3s; }
-        .tab-btn.active, .tab-btn:hover { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); }
+        .tab-btn.active, .tab-btn:hover { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); }
         .guide-card { border-left: 5px solid var(--primary); }
+        .guide-card h4 { color: var(--primary-dark); }
+        .guide-card .tip { color: #c0392b; } /* 强调减脂提示 */
 
     </style>
 </head>
@@ -104,23 +78,26 @@
 
     <section class="card">
         <div class="calc-header">
-            <h2>🥗 营养需求计算器</h2>
-            <p>基于您的身体数据，科学规划每日摄入</p>
+            <h2>🔥 减脂目标计算器</h2>
+            <p>科学设定热量赤字，迈出瘦身第一步</p>
         </div>
 
         <form id="calcForm" onsubmit="event.preventDefault(); showResults();">
             <div class="form-grid">
+                
                 <div class="gender-group">
                     <label class="radio-label"><input type="radio" name="gender" value="male" id="genderMale" checked><span>👨 男士</span></label>
                     <label class="radio-label"><input type="radio" name="gender" value="female" id="genderFemale"><span>👩 女士</span></label>
                 </div>
+
                 <div class="input-group"><label>年龄 (岁)</label><input type="number" class="styled-input" id="ageInput" placeholder="25" required min="10"></div>
-                <div class="input-group"><label>体重 (kg)</label><input type="number" class="styled-input" id="weightInput" placeholder="60" required min="30"></div>
+                <div class="input-group"><label>体重 (kg)</label><input type="number" class="styled-input" id="weightInput" placeholder="70" required min="30"></div>
                 <div class="input-group full-width"><label>身高 (cm)</label><input type="number" class="styled-input" id="heightInput" placeholder="170" required min="100"></div>
+                
                 <div class="input-group full-width">
                     <label>日常活动强度</label>
                     <select class="styled-select" id="activitySelect">
-                        <option value="1.2">🛋️ 久坐不动 (办公室工作)</option>
+                        <option value="1.2">🛋️ 久坐不动 (办公室)</option>
                         <option value="1.375">🚶‍♂️ 轻度活动 (每周运动1-3次)</option>
                         <option value="1.55">🏃‍♂️ 中度活动 (每周运动3-5次)</option>
                         <option value="1.725">🏋️‍♂️ 高强度活动 (每天运动)</option>
@@ -128,50 +105,50 @@
                 </div>
             </div>
 
-            <button class="btn-calc" type="submit">开始计算 / LET'S DO IT</button>
+            <button class="btn-calc" type="submit">计算减脂目标 / START DIET</button>
         </form>
     </section>
 
     <section id="resultCard" class="card result-section">
-        <h3>✨ 您的专属营养建议</h3>
-        <p style="color:#666; font-size:0.9em; margin-bottom:15px;">维持当前体重每日推荐摄入：</p>
+        <h3>🎯 您的每日减脂目标</h3>
+        <p style="color:#666; font-size:0.9em; margin-bottom:15px;">通过 **热量赤字 500 kcal** 达到的目标摄入：</p>
         
         <div class="calories-display">
             <span class="big-number" id="tdeeResult">0</span> kcal
-            <div style="font-size:0.8em; opacity:0.8;">每日热量</div>
+            <div style="font-size:0.8em; opacity:0.8;">每日目标热量摄入</div>
         </div>
 
         <div class="nutrients-grid">
-            <div class="nutrient-box"><span class="nutrient-val prot-color" id="proteinResult">0g</span><span class="nutrient-lbl">蛋白质</span></div>
-            <div class="nutrient-box"><span class="nutrient-val fat-color" id="fatResult">0g</span><span class="nutrient-lbl">脂肪</span></div>
-            <div class="nutrient-box"><span class="nutrient-val carb-color" id="carbResult">0g</span><span class="nutrient-lbl">碳水</span></div>
+            <div class="nutrient-box"><span class="nutrient-val prot-color" id="proteinResult">0g</span><span class="nutrient-lbl">蛋白质 (增肌保肌)</span></div>
+            <div class="nutrient-box"><span class="nutrient-val fat-color" id="fatResult">0g</span><span class="nutrient-lbl">脂肪 (必需摄入)</span></div>
+            <div class="nutrient-box"><span class="nutrient-val carb-color" id="carbResult">0g</span><span class="nutrient-lbl">碳水 (提供能量)</span></div>
         </div>
     </section>
     
     <section id="recommendationCard" class="card result-section" style="display: none;">
-        <h3>🍽️ 推荐食物搭配示例</h3>
+        <h3>🍽️ 低卡高蛋白食物搭配示例</h3>
         <p style="color:#666; font-size:0.9em; margin-bottom:15px;">以下搭配示例可大致满足您的每日宏量营养素需求：</p>
         
         <div id="mealPlanOutput" class="recommendation-grid">
-            </div>
+        </div>
     </section>
 
     <section class="card">
-        <h3 style="margin-bottom: 15px;">🍎 食物分类指南</h3>
+        <h3 style="margin-bottom: 15px;">📖 减脂期食物选择指南</h3>
         
         <div class="nav-wrapper">
             <div class="food-tabs">
-                <button class="tab-btn active" onclick="switchTab(this, 'all')">全部指南</button>
-                <button class="tab-btn" onclick="switchTab(this, 'grain')">🌾 谷薯类</button>
-                <button class="tab-btn" onclick="switchTab(this, 'vege')">🍏 蔬果类</button>
-                <button class="tab-btn" onclick="switchTab(this, 'meat')">🥩 畜禽肉蛋</button>
-                <button class="tab-btn" onclick="switchTab(this, 'soy')">🥛 奶豆坚果</button>
+                <button class="tab-btn active" onclick="switchTab(this, 'all')">减脂核心</button>
+                <button class="tab-btn" onclick="switchTab(this, 'grain')">🌾 碳水选择</button>
+                <button class="tab-btn" onclick="switchTab(this, 'vege')">🍏 蔬果纤维</button>
+                <button class="tab-btn" onclick="switchTab(this, 'meat')">🥩 蛋白质源</button>
+                <button class="tab-btn" onclick="switchTab(this, 'soy')">🥛 饮品与零食</button>
             </div>
         </div>
 
         <div id="foodContent" class="food-content-detail">
-             <div class="guide-card primary-bg">
-                <h4>🎉 开启你的健康食谱</h4>
+             <div class="guide-card">
+                <h4>🎉 减脂成功的核心要素</h4>
                 <p>合理搭配是健康饮食的关键。膳食指南建议：食物多样，谷类为主，多吃蔬果，适量吃鱼禽蛋瘦肉，少盐少油。</p>
             </div>
         </div>
@@ -181,29 +158,32 @@
 
 <script>
     // =========================================================
-    // 食物数据库 (FOOD_DATABASE) - 核心数据源
-    // 数据结构: 名称, 类型, 每100g 营养素 (克), 热量 (大卡)
+    // 减脂主题常量与数据库
     // =========================================================
+    const CALORIE_DEFICIT = 500; // 减脂目标：每日热量赤字 500 kcal
+    // 减脂宏量营养素比例：高蛋白 (35%)，中碳水 (45%)，低脂肪 (20%)
+    const MACRO_SPLIT = { P: 0.35, F: 0.20, C: 0.45 }; 
+
     const FOOD_DATABASE = [
         // 蛋白质 (Protein)
         { name: "鸡胸肉 (去皮)", type: "protein", P: 24, F: 1.2, C: 0, Kcal: 133 },
-        { name: "鸡蛋 (全蛋)", type: "protein", P: 12.6, F: 8.8, C: 0.7, Kcal: 144 },
-        { name: "三文鱼", type: "protein", P: 20, F: 12, C: 0, Kcal: 208 },
+        { name: "希腊酸奶 (原味)", type: "protein", P: 10, F: 0.5, C: 5, Kcal: 60 },
+        { name: "罗非鱼/巴沙鱼", type: "protein", P: 20, F: 1.5, C: 0, Kcal: 96 },
         // 碳水 (Carbohydrate)
-        { name: "燕麦片", type: "carb", P: 15, F: 6.7, C: 66.9, Kcal: 389 },
-        { name: "糙米", type: "carb", P: 7.6, F: 2.5, C: 73.7, Kcal: 368 },
-        { name: "红薯 (蒸熟)", type: "carb", P: 1.5, F: 0.2, C: 25, Kcal: 100 },
-        // 脂肪 (Fat) & 健康脂肪
+        { name: "燕麦片 (低GI)", type: "carb", P: 15, F: 6.7, C: 66.9, Kcal: 389 },
+        { name: "糙米/藜麦", type: "carb", P: 7.6, F: 2.5, C: 73.7, Kcal: 368 },
+        { name: "玉米/土豆 (蒸煮)", type: "carb", P: 1.5, F: 0.2, C: 25, Kcal: 100 },
+        // 脂肪 (Fat)
         { name: "牛油果", type: "fat", P: 2, F: 15, C: 9, Kcal: 160 },
-        { name: "核桃", type: "fat", P: 15, F: 65, C: 14, Kcal: 654 },
-        // 蔬菜 (用于补充膳食纤维/微量元素, 少量碳水)
+        { name: "奇亚籽", type: "fat", P: 17, F: 31, C: 42, Kcal: 486 },
+        // 蔬菜 (用于补充膳食纤维/微量元素)
         { name: "西兰花", type: "vegetable", P: 2.8, F: 0.4, C: 6.6, Kcal: 33 },
         { name: "菠菜", type: "vegetable", P: 2.6, F: 0.3, C: 3.2, Kcal: 23 },
     ];
 
 
     // =========================================================
-    // 逻辑函数
+    // 逻辑函数 (包含减脂逻辑)
     // =========================================================
 
     // 数字动画函数 (保持不变)
@@ -256,11 +236,15 @@
         
         const TDEE = BMR * activityFactor;
         
-        const proteinCal = TDEE * 0.25;
+        // **减脂核心逻辑：应用热量赤字**
+        const TARGET_CALORIES = TDEE - CALORIE_DEFICIT;
+
+        // **应用减脂宏量营养素比例 (35% P, 20% F, 45% C)**
+        const proteinCal = TARGET_CALORIES * MACRO_SPLIT.P;
         const proteinGrams = proteinCal / 4;
-        const fatCal = TDEE * 0.25;
+        const fatCal = TARGET_CALORIES * MACRO_SPLIT.F;
         const fatGrams = fatCal / 9;
-        const carbCal = TDEE * 0.50;
+        const carbCal = TARGET_CALORIES * MACRO_SPLIT.C;
         const carbGrams = carbCal / 4;
 
         
@@ -271,87 +255,51 @@
         recommendationCard.style.display = 'block';
         resultCard.scrollIntoView({ behavior: 'smooth' });
 
-        animateValue('tdeeResult', 0, TDEE, 1500);
+        animateValue('tdeeResult', 0, TARGET_CALORIES, 1500); // 显示目标摄入
         animateValue('proteinResult', 0, proteinGrams, 1500);
         animateValue('fatResult', 0, fatGrams, 1500);
         animateValue('carbResult', 0, carbGrams, 1500);
         
-        // **调用新的推荐函数**
-        generateMealPlan({
-            P: proteinGrams, 
-            F: fatGrams, 
-            C: carbGrams
-        });
+        // 调用新的推荐函数
+        generateMealPlan({ P: proteinGrams, F: fatGrams, C: carbGrams });
     }
 
     // 食物搭配算法 (根据宏量营养素目标反推食物份量)
     function generateMealPlan(targets) {
         const outputDiv = document.getElementById('mealPlanOutput');
         outputDiv.innerHTML = '';
-        
         let planHtml = '';
 
-        // --- 1. 蛋白质推荐 ---
+        // --- 1. 蛋白质推荐 (低脂高蛋白) ---
         const leanProtein = FOOD_DATABASE.find(f => f.name.includes("鸡胸肉"));
-        // 假设每日蛋白质需求的 60% 通过鸡胸肉满足
-        const targetProteinGrams = targets.P * 0.6; 
+        const targetProteinGrams = targets.P * 0.6; // 60%蛋白质从鸡胸肉获取
         const chickenServingGrams = (targetProteinGrams / leanProtein.P) * 100;
 
-        planHtml += `
-            <div class="rec-item">
-                <strong>🥩 蛋白质来源</strong>
-                <span>${leanProtein.name}</span>
-                <span>约 ${Math.round(chickenServingGrams)}g</span>
-            </div>
-        `;
+        planHtml += `<div class="rec-item"><strong>🥩 核心蛋白质</strong><span>${leanProtein.name}</span><span>约 ${Math.round(chickenServingGrams)}g</span></div>`;
         
-        // --- 2. 碳水化合物推荐 ---
-        const wholeGrain = FOOD_DATABASE.find(f => f.name.includes("燕麦片"));
-        // 假设每日碳水需求的 40% 通过燕麦满足
-        const targetCarbGrams = targets.C * 0.4;
-        const oatServingGrams = (targetCarbGrams / wholeGrain.C) * 100;
+        // --- 2. 碳水化合物推荐 (复合碳水) ---
+        const wholeGrain = FOOD_DATABASE.find(f => f.name.includes("糙米"));
+        const targetCarbGrams = targets.C * 0.4; // 40%碳水从糙米获取
+        const riceServingGrams = (targetCarbGrams / wholeGrain.C) * 100;
         
-        planHtml += `
-            <div class="rec-item">
-                <strong>🍚 碳水化合物来源</strong>
-                <span>${wholeGrain.name}</span>
-                <span>约 ${Math.round(oatServingGrams)}g</span>
-            </div>
-        `;
+        planHtml += `<div class="rec-item"><strong>🍚 核心碳水</strong><span>${wholeGrain.name}</span><span>约 ${Math.round(riceServingGrams)}g (生重)</span></div>`;
         
-        // --- 3. 脂肪推荐 ---
-        const healthyFat = FOOD_DATABASE.find(f => f.name.includes("核桃"));
-        // 假设每日脂肪需求的 15% 通过核桃满足
-        const targetFatGrams = targets.F * 0.15; 
-        const nutServingGrams = (targetFatGrams / healthyFat.F) * 100;
+        // --- 3. 脂肪推荐 (控制份量) ---
+        const healthyFat = FOOD_DATABASE.find(f => f.name.includes("奇亚籽"));
+        const targetFatGrams = targets.F * 0.15; // 15%脂肪从奇亚籽获取
+        const seedServingGrams = (targetFatGrams / healthyFat.F) * 100;
 
-        planHtml += `
-            <div class="rec-item">
-                <strong>🥑 健康脂肪来源</strong>
-                <span>${healthyFat.name}</span>
-                <span>约 ${Math.round(nutServingGrams)}g</span>
-            </div>
-        `;
+        planHtml += `<div class="rec-item"><strong>🥑 健康脂肪</strong><span>${healthyFat.name}</span><span>约 ${Math.round(seedServingGrams)}g</span></div>`;
 
-        // --- 4. 蔬菜和水分 (固定推荐) ---
-        planHtml += `
-            <div class="rec-item">
-                <strong>🥦 维生素与纤维</strong>
-                <span>${FOOD_DATABASE.find(f => f.type === "vegetable").name}</span>
-                <span>约 300g - 500g</span>
-            </div>
-            <div class="rec-item">
-                <strong>💧 水分摄入</strong>
-                <span>纯净水/茶</span>
-                <span>约 2000ml/日</span>
-            </div>
-        `;
+        // --- 4. 蔬菜和水分 (高饱腹感) ---
+        planHtml += `<div class="rec-item"><strong>🥦 纤维与饱腹感</strong><span>${FOOD_DATABASE.find(f => f.type === "vegetable").name}</span><span>每天 500g 以上</span></div>`;
+        planHtml += `<div class="rec-item"><strong>💧 水分摄入</strong><span>纯净水/黑咖啡</span><span>保持每天 2500ml+</span></div>`;
         
         outputDiv.innerHTML = planHtml;
     }
 
 
-    // 导航切换逻辑 (保持不变)
+    // 导航切换逻辑 (减脂内容更新)
     function switchTab(btn, category) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -359,11 +307,62 @@
         const content = document.getElementById('foodContent');
 
         const textMap = {
-            'all': `<div class="guide-card"><h4>🎉 膳食指南八项原则</h4><ul><li>食物多样，谷类为主，粗细搭配。</li><li>多吃蔬果、奶类、大豆。</li><li>适量吃鱼、禽、蛋、瘦肉。</li><li>少盐、少油，控糖、限酒。</li></ul></div>`,
-            'grain': `<div class="guide-card"><h4>🌾 谷薯类：能量的基础</h4><ul><li>**推荐摄入量：** 每天 250g - 400g。</li><li>**优选种类：** 糙米、燕麦、全麦。</li><li>**搭配原则：** 全谷物和杂豆类应占主食的 1/3。</li></ul><p class="tip">💡 建议将部分精米白面替换为粗粮。</p></div>`,
-            'vege': `<div class="guide-card"><h4>🍏 蔬果类：维生素和纤维的来源</h4><ul><li>**蔬菜目标：** 每天至少 300g - 500g。</li><li>**深色优先：** 深色蔬菜应占蔬菜总量的一半。</li><li>**水果适量：** 每天 200g - 350g 为宜。</li></ul><p class="tip">💡 蔬菜煮熟会损失部分维生素C，建议每天生吃适量蔬菜。</p></div>`,
-            'meat': `<div class="guide-card"><h4>🥩 畜禽肉蛋：优质蛋白质</h4><ul><li>**优先顺序：** 鱼虾 > 禽肉 > 畜肉。</li><li>**蛋类摄入：** 每天一个鸡蛋。</li><li>**总量控制：** 每天总共摄入 120g - 200g 鱼禽蛋瘦肉。</li></ul><p class="tip">💡 烹饪时尽量采用蒸、煮、炖等方式，少用油炸。</p></div>`,
-            'soy': `<div class="guide-card"><h4>🥛 奶豆坚果：补钙和健康油脂</h4><ul><li>**奶类摄入：** 每天 300g 液态奶。</li><li>**大豆类：** 每天 25g - 35g 大豆（或等量豆腐）。</li><li>**坚果限制：** 每天仅限一小把（约 10g）。</li></ul><p class="tip">💡 豆制品是素食者的主要蛋白质来源，坚果记得选择原味、非油炸的。</p></div>`
+            'all': `
+                <div class="guide-card">
+                    <h4>🔥 减脂成功的核心要素</h4>
+                    <ul>
+                        <li>**热量赤字：** 摄入 < 消耗，是瘦身的唯一途径。</li>
+                        <li>**高蛋白：** 保护肌肉，增加饱腹感，提高食物热效应。</li>
+                        <li>**复合碳水：** 选择低GI食物，保持血糖稳定。</li>
+                        <li>**足量饮水：** 有助代谢和排毒，缓解饥饿感。</li>
+                    </ul>
+                    <p class="tip">🚨 **严禁：** 任何形式的饥饿节食，这将导致代谢降低和反弹！</p>
+                </div>
+            `,
+            'grain': `
+                <div class="guide-card">
+                    <h4>🌾 碳水选择：低GI，高纤维</h4>
+                    <ul>
+                        <li>**推荐：** 糙米、藜麦、燕麦片、全麦面包 (真全麦)。</li>
+                        <li>**主食份量：** 严格按照计算器给出的碳水目标来控制总份量。</li>
+                        <li>**避免：** 精制白米饭、白面条、甜点、含糖饮料。</li>
+                    </ul>
+                    <p class="tip">🚨 碳水并非敌人，但必须控制总摄入量和来源。</p>
+                </div>
+            `,
+            'vege': `
+                <div class="guide-card">
+                    <h4>🍏 蔬果纤维：提高饱腹感</h4>
+                    <ul>
+                        <li>**蔬菜目标：** 每天 500g 以上，多吃绿叶菜和十字花科蔬菜。</li>
+                        <li>**水果：** 放在餐间作为加餐，选择低糖分水果（如莓果、番茄）。</li>
+                        <li>**优势：** 蔬菜卡路里密度极低，可以大量食用增加饱腹感。</li>
+                    </ul>
+                    <p class="tip">🚨 果汁、果干和薯条等加工蔬菜，应完全禁止。</p>
+                </div>
+            `,
+            'meat': `
+                <div class="guide-card">
+                    <h4>🥩 蛋白质源：保护肌肉不流失</h4>
+                    <ul>
+                        <li>**首选：** 鸡胸肉、鱼虾、鸡蛋清、瘦牛肉。</li>
+                        <li>**烹饪方式：** 蒸、煮、烤（避免油炸和大量用油）。</li>
+                        <li>**摄入重要性：** 蛋白质是减脂期最关键的营养素，必须达标。</li>
+                    </ul>
+                    <p class="tip">🚨 肥肉、带皮禽肉、加工肉制品（香肠）应避免。</p>
+                </div>
+            `,
+            'soy': `
+                <div class="guide-card">
+                    <h4>🥛 饮品与零食：隐形热量杀手</h4>
+                    <ul>
+                        <li>**饮品：** 白水、黑咖啡、无糖茶是最佳选择。</li>
+                        <li>**零食：** 少量原味坚果（不超过一小把）、希腊酸奶（原味）。</li>
+                        <li>**避免：** 奶茶、碳酸饮料、高糖分果汁、饼干、糕点。</li>
+                    </ul>
+                    <p class="tip">🚨 液体卡路里最容易被忽略，远离所有含糖饮料。</p>
+                </div>
+            `
         };
         
         content.innerHTML = textMap[category];
